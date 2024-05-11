@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO CLIUtils/CLI11
-    REF v2.1.2
-    SHA512 3b21d015e046666d2e3df2b7cf1a6247c2daa26bf583e714dc1f0a94518785bf90993cd8530f88078b4daac02530dc517db0d5ad452d2a91521b3007f270ea55
+    REF "v${VERSION}"
+    SHA512 965290d09977672d3bc3c57ca4b89a88c2c09461da6e866b18217d702d4d5a0977588fcb8fef1a3c3804e61ad80d276029f47469cc83dbfdc7021ee35f6b7269
     HEAD_REF main
 )
 
@@ -12,13 +12,13 @@ vcpkg_cmake_configure(
         -DCLI11_BUILD_EXAMPLES=OFF
         -DCLI11_BUILD_DOCS=OFF
         -DCLI11_BUILD_TESTS=OFF
+        -DCLI11_PRECOMPILED=ON
 )
 
 vcpkg_cmake_install()
 
 vcpkg_cmake_config_fixup(CONFIG_PATH share/cmake/CLI11)
 vcpkg_fixup_pkgconfig()
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug")
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include" "${CURRENT_PACKAGES_DIR}/debug/share")
 
-# Handle copyright
-file(INSTALL "${SOURCE_PATH}/LICENSE" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)
+vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE")

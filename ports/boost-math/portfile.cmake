@@ -3,19 +3,16 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO boostorg/math
-    REF boost-1.78.0
-    SHA512 a5de0dfddca56ef67c750db55d103e41822ae3823c023f884211a1d993ebd4a35cceab024b405e48f51acc7f2ae7d1e97aa7e4c603eca929027b62ca2d234ff9
+    REF boost-${VERSION}
+    SHA512 3e7f7534641a9e201f6fd5bd1b8b77018f9bc4254376a11e84a2478943ae050b7bc9de7516d86477794e700c385414936998c674ba091326a00420bf2acffd0c
     HEAD_REF master
-    PATCHES 001-remove-checks.patch
+    PATCHES
+        build-old-libs.patch
+        opt-random.diff
 )
 
-if(NOT DEFINED CURRENT_HOST_INSTALLED_DIR)
-    message(FATAL_ERROR "boost-math requires a newer version of vcpkg in order to build.")
-endif()
-include(${CURRENT_HOST_INSTALLED_DIR}/share/boost-build/boost-modular-build.cmake)
-boost_modular_build(
-    SOURCE_PATH ${SOURCE_PATH}
-    BOOST_CMAKE_FRAGMENT "${CMAKE_CURRENT_LIST_DIR}/b2-options.cmake"
+set(FEATURE_OPTIONS "")
+boost_configure_and_install(
+    SOURCE_PATH "${SOURCE_PATH}"
+    OPTIONS ${FEATURE_OPTIONS}
 )
-include(${CURRENT_INSTALLED_DIR}/share/boost-vcpkg-helpers/boost-modular-headers.cmake)
-boost_modular_headers(SOURCE_PATH ${SOURCE_PATH})

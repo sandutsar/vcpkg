@@ -3,10 +3,13 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO boostorg/winapi
-    REF boost-1.78.0
-    SHA512 431d0091574e857f895a9b8659a474e5aaf7ba0e80f0a15da445f2ed3612e192bdd0763e024a62ad94f8a0efbfadbd00c7caf20836409fb46fb0dc1520236dd6
+    REF boost-${VERSION}
+    SHA512 77ef70a765c4f167fbacedff544db06410763f46db1f12f87bc0d24bf493c12e5062b2b9cafc1d969268922ab806d53c32d104bf6483c29fdc9e08d0a18109e3
     HEAD_REF master
 )
 
-include(${CURRENT_INSTALLED_DIR}/share/boost-vcpkg-helpers/boost-modular-headers.cmake)
-boost_modular_headers(SOURCE_PATH ${SOURCE_PATH})
+set(FEATURE_OPTIONS "")
+boost_configure_and_install(
+    SOURCE_PATH "${SOURCE_PATH}"
+    OPTIONS ${FEATURE_OPTIONS}
+)

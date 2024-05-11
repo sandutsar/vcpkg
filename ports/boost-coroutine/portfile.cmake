@@ -3,15 +3,13 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO boostorg/coroutine
-    REF boost-1.78.0
-    SHA512 ebb8319388b2a57143a3fb5a66cc930547a804fd8b04374632c2fbaff8f28a1d9b22ea5862e39c1e653c2062c2137e97d38fa5cb44ce5699b07cc5c7526f311f
+    REF boost-${VERSION}
+    SHA512 1adfd880c1f3dbf17d737aa65a5f995b7578fc513eef945b8b8ac0c2aa5139a9e11389e87b442f564506b3a49bab64b2737ab8335fd63fccfb94e015a3431635
     HEAD_REF master
 )
 
-if(NOT DEFINED CURRENT_HOST_INSTALLED_DIR)
-    message(FATAL_ERROR "boost-coroutine requires a newer version of vcpkg in order to build.")
-endif()
-include(${CURRENT_HOST_INSTALLED_DIR}/share/boost-build/boost-modular-build.cmake)
-boost_modular_build(SOURCE_PATH ${SOURCE_PATH})
-include(${CURRENT_INSTALLED_DIR}/share/boost-vcpkg-helpers/boost-modular-headers.cmake)
-boost_modular_headers(SOURCE_PATH ${SOURCE_PATH})
+set(FEATURE_OPTIONS "")
+boost_configure_and_install(
+    SOURCE_PATH "${SOURCE_PATH}"
+    OPTIONS ${FEATURE_OPTIONS}
+)

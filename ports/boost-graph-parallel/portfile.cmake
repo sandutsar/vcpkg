@@ -3,15 +3,13 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO boostorg/graph_parallel
-    REF boost-1.78.0
-    SHA512 50efce738dcdb001c5d429274f1d699caa45e68998f60dfdd5c0a572981ca72a2d08159619adda8a011c1d6237bf615572f74ebe10f2fb98334984a54c9f653d
+    REF boost-${VERSION}
+    SHA512 bd8a88ba1b1b050623439fcd7d0910418b83add8f47395a0ea35808e96fd0c5a71abec93f037263a439d08640501850100e8d51ea7cf0e2c271a9cc0373c46cb
     HEAD_REF master
 )
 
-if(NOT DEFINED CURRENT_HOST_INSTALLED_DIR)
-    message(FATAL_ERROR "boost-graph-parallel requires a newer version of vcpkg in order to build.")
-endif()
-include(${CURRENT_HOST_INSTALLED_DIR}/share/boost-build/boost-modular-build.cmake)
-boost_modular_build(SOURCE_PATH ${SOURCE_PATH})
-include(${CURRENT_INSTALLED_DIR}/share/boost-vcpkg-helpers/boost-modular-headers.cmake)
-boost_modular_headers(SOURCE_PATH ${SOURCE_PATH})
+set(FEATURE_OPTIONS "")
+boost_configure_and_install(
+    SOURCE_PATH "${SOURCE_PATH}"
+    OPTIONS ${FEATURE_OPTIONS}
+)

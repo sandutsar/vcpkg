@@ -3,18 +3,16 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO boostorg/regex
-    REF boost-1.78.0
-    SHA512 2ffb36c9652fd497c22852e332397c5fff7752c2919d1566833da9d2a64462292c03aceb2601515d590a939ffa4967e590bc5fa8cbaccd6d73555b47e703a74c
+    REF boost-${VERSION}
+    SHA512 aa5d0f39011ad31f447f52994676ab17b42d1455456b5c8d65fea15f0c77e9438daeffa12ca8b3dab84b7e4f33e31570c36dcdfd4ffd313ed6a02e9c1a4b8096
     HEAD_REF master
+    PATCHES
+        compat.diff
 )
 
-if(NOT DEFINED CURRENT_HOST_INSTALLED_DIR)
-    message(FATAL_ERROR "boost-regex requires a newer version of vcpkg in order to build.")
-endif()
-include(${CURRENT_HOST_INSTALLED_DIR}/share/boost-build/boost-modular-build.cmake)
-boost_modular_build(
-    SOURCE_PATH ${SOURCE_PATH}
-    BOOST_CMAKE_FRAGMENT "${CMAKE_CURRENT_LIST_DIR}/b2-options.cmake"
+set(FEATURE_OPTIONS "")
+include("${CMAKE_CURRENT_LIST_DIR}/features.cmake")
+boost_configure_and_install(
+    SOURCE_PATH "${SOURCE_PATH}"
+    OPTIONS ${FEATURE_OPTIONS}
 )
-include(${CURRENT_INSTALLED_DIR}/share/boost-vcpkg-helpers/boost-modular-headers.cmake)
-boost_modular_headers(SOURCE_PATH ${SOURCE_PATH})

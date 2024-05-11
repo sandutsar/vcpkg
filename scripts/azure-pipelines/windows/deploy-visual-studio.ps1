@@ -5,26 +5,28 @@
 
 # REPLACE WITH UTILITY-PREFIX.ps1
 
-$VisualStudioBootstrapperUrl = 'https://aka.ms/vs/16/release/vs_enterprise.exe'
+# See https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-history
+$VisualStudioBootstrapperUrl = 'https://download.visualstudio.microsoft.com/download/pr/ec7bd8ef-2c51-4e4f-a83f-9087ffbe8b76/f7fdf51d7c15b65c60f0f358776576f4423417da603ef46a213bd69ad463e9e2/vs_Enterprise.exe'
 $Workloads = @(
   'Microsoft.VisualStudio.Workload.NativeDesktop',
   'Microsoft.VisualStudio.Workload.Universal',
+  'Microsoft.VisualStudio.Component.UWP.VC.ARM64',
   'Microsoft.VisualStudio.Component.VC.Tools.x86.x64',
-  'Microsoft.VisualStudio.Component.VC.Tools.ARM',
   'Microsoft.VisualStudio.Component.VC.Tools.ARM64',
+  'Microsoft.VisualStudio.Component.VC.ASAN',
   'Microsoft.VisualStudio.Component.VC.ATL',
   'Microsoft.VisualStudio.Component.VC.ATLMFC',
-  'Microsoft.VisualStudio.Component.VC.v141.x86.x64.Spectre',
-  'Microsoft.VisualStudio.Component.Windows10SDK.18362',
-  'Microsoft.VisualStudio.Component.Windows10SDK.19041',
+  'Microsoft.VisualStudio.Component.VC.ATL.ARM64',
+  'Microsoft.VisualStudio.Component.VC.MFC.ARM64',
+  "Microsoft.VisualStudio.Component.Windows11SDK.22621",
+  "Microsoft.VisualStudio.Component.Windows10SDK.20348",
   'Microsoft.Net.Component.4.8.SDK',
   'Microsoft.Net.Component.4.7.2.TargetingPack',
   'Microsoft.Component.NetFX.Native',
   'Microsoft.VisualStudio.Component.VC.Llvm.ClangToolset',
   'Microsoft.VisualStudio.Component.VC.Llvm.Clang',
-  'Microsoft.VisualStudio.Component.VC.v141.x86.x64',
-  'Microsoft.VisualStudio.Component.VC.140',
-  'Microsoft.VisualStudio.ComponentGroup.UWP.VC.BuildTools'
+  'Microsoft.VisualStudio.ComponentGroup.UWP.VC.BuildTools',
+  'Microsoft.VisualStudio.Component.VC.CMake.Project'
 )
 
 <#

@@ -1,9 +1,15 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO microsoft/cppgraphqlgen
-    REF v4.1.0
-    SHA512 530cbc21d43b918a8ad2d32f659dd20a8272a59952808c13f2fad9f9ca0bd3df1bb8b5296ab7d62f831d6d0c6197b9f5708ddda58f44332bfbfee6f6f2d116bb
+    REF "v${VERSION}"
+    SHA512 8079b2690ef4fba491e96ef2ed3da61d0c0b7bee3f61fa6d1fb95c771f1a8220a7b15b489b21bf9b1627e8616f95c65b43b8f63ee93cb0193edac4cb54307b3a
     HEAD_REF main
+)
+
+vcpkg_check_features(
+    OUT_FEATURE_OPTIONS FEATURE_OPTIONS
+    FEATURES
+        rapidjson   GRAPHQL_USE_RAPIDJSON
 )
 
 vcpkg_cmake_configure(
@@ -13,6 +19,7 @@ vcpkg_cmake_configure(
         -DGRAPHQL_UPDATE_VERSION=OFF 
         -DGRAPHQL_UPDATE_SAMPLES=OFF 
         -DGRAPHQL_INSTALL_CONFIGURATIONS=Release
+        ${FEATURE_OPTIONS}
     OPTIONS_RELEASE 
         -DGRAPHQL_INSTALL_CMAKE_DIR=${CURRENT_PACKAGES_DIR}/share 
         -DGRAPHQL_INSTALL_TOOLS_DIR=${CURRENT_PACKAGES_DIR}/tools

@@ -4,16 +4,16 @@ if ("docking-experimental" IN_LIST FEATURES)
     vcpkg_from_github(
        OUT_SOURCE_PATH SOURCE_PATH
        REPO ocornut/imgui
-       REF 15b4a064f9244c430e65214f7249b615fb394321
-       SHA512 d83403caf37efbffb29d902f7ea7d52596525f1bf7d1258671ffd5ea17f810c63541b2142dee1c9cf12c16fde697373972cbabd3957b1fcb87c9e1aa22ebbc4e
+       REF "v${VERSION}-docking"
+       SHA512 05f352f4c6739eb672396c33d8fb9765c3fbf8f221c4fa9d09644ae669771cb6c86be7ca110c09d8c3e0d1be37da0a7f5667ebd5280ae8e0a6fcc6efaf338fa7
        HEAD_REF docking
        )
 else()
     vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO ocornut/imgui
-    REF v1.86
-    SHA512 e84fdc0839e96e53dcbe3a5d13bbd0def860c09bafa709b22f8371d5c710f5c90f6957e5f12813156ed0c4d0fa2b56c5e3be701206f7770749ce169818697229
+    REF "v${VERSION}"
+    SHA512 bd7ac28a1ef7b236e8051d83288ba9fe5f4d0321143ca325b7eb8649a24c0bf047b02b854fac828eb45c99517c7f579bb6bad1dabeeed3c323d714a94102a8e6
     HEAD_REF master
     )
 endif()
@@ -21,13 +21,10 @@ endif()
 file(COPY "${CMAKE_CURRENT_LIST_DIR}/imgui-config.cmake.in" DESTINATION "${SOURCE_PATH}")
 file(COPY "${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt" DESTINATION "${SOURCE_PATH}")
 
-if(("metal-binding" IN_LIST FEATURES OR "osx-binding" IN_LIST FEATURES) AND (NOT VCPKG_TARGET_IS_OSX))
-    message(FATAL_ERROR "Feature metal-binding and osx-binding are only supported on osx.")
-endif()
-
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
     FEATURES 
     allegro5-binding            IMGUI_BUILD_ALLEGRO5_BINDING
+    android-binding             IMGUI_BUILD_ANDROID_BINDING
     dx9-binding                 IMGUI_BUILD_DX9_BINDING
     dx10-binding                IMGUI_BUILD_DX10_BINDING
     dx11-binding                IMGUI_BUILD_DX11_BINDING
@@ -43,6 +40,7 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
     vulkan-binding              IMGUI_BUILD_VULKAN_BINDING
     win32-binding               IMGUI_BUILD_WIN32_BINDING
     freetype                    IMGUI_FREETYPE
+    freetype-lunasvg            IMGUI_FREETYPE_LUNASVG
     wchar32                     IMGUI_USE_WCHAR32
 )
 
@@ -72,6 +70,9 @@ vcpkg_cmake_install()
 if ("freetype" IN_LIST FEATURES)
     vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/include/imconfig.h" "//#define IMGUI_ENABLE_FREETYPE" "#define IMGUI_ENABLE_FREETYPE")
 endif()
+if ("freetype-lunasvg" IN_LIST FEATURES)
+    vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/include/imconfig.h" "//#define IMGUI_ENABLE_FREETYPE_LUNASVG" "#define IMGUI_ENABLE_FREETYPE_LUNASVG")
+endif()
 if ("wchar32" IN_LIST FEATURES)
     vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/include/imconfig.h" "//#define IMGUI_USE_WCHAR32" "#define IMGUI_USE_WCHAR32")
 endif()
@@ -79,4 +80,4 @@ endif()
 vcpkg_copy_pdbs()
 vcpkg_cmake_config_fixup()
 
-file(INSTALL "${SOURCE_PATH}/LICENSE.txt" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)
+vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE.txt")

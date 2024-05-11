@@ -3,12 +3,15 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO boostorg/predef
-    REF boost-1.78.0
-    SHA512 96755a174f94565485976663d92cbb9bc61e9ec669c678161144f9f2010d98ab9df8eb1bc1afa4a72aa2b39cf876a65a17afd41e221d08709cab2053756c42bf
+    REF boost-${VERSION}
+    SHA512 8e15aa2ad79e0c567aa02f77edc3a80ece2e0e751f486d3feb3c70f1073dd5481ec01aa37a8137d00b2d7b002b8b51ef9229d07d5a744ccd6f26b4c83b6383a0
     HEAD_REF master
 )
 
-include(${CURRENT_INSTALLED_DIR}/share/boost-vcpkg-helpers/boost-modular-headers.cmake)
-boost_modular_headers(SOURCE_PATH ${SOURCE_PATH})
+set(FEATURE_OPTIONS "")
+boost_configure_and_install(
+    SOURCE_PATH "${SOURCE_PATH}"
+    OPTIONS ${FEATURE_OPTIONS}
+)
 
-file(COPY ${SOURCE_PATH}/tools/check DESTINATION ${CURRENT_PACKAGES_DIR}/share/boost-predef)
+file(COPY "${SOURCE_PATH}/libs/predef/tools/check" DESTINATION "${CURRENT_PACKAGES_DIR}/share/boost-predef")

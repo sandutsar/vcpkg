@@ -1,15 +1,16 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO ToruNiina/toml11
-    REF v3.7.0
-    SHA512 093833ea4354ab91f54c0a346e51d38e297b8c347241f679c023e65fe580edca7852d934a0a0d371524426f61e58ee3a9638061b1230cd72be7ff55fcf12370c
+    REF "v${VERSION}"
+    SHA512 74a70abe413e21b94284242c281645c49f08b930c62f5479e6698cee45a99b56511d0a8888f1f6f2af3fc245bb0dfd5048a0b810b474ca1066211e25a1ce33bb
     HEAD_REF master
 )
 
 vcpkg_cmake_configure(
-        SOURCE_PATH ${SOURCE_PATH}
+        SOURCE_PATH "${SOURCE_PATH}"
         OPTIONS
             -Dtoml11_BUILD_TEST=OFF
+            -DCMAKE_CXX_STANDARD=11
 )
 vcpkg_cmake_install()
 vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/toml11)
